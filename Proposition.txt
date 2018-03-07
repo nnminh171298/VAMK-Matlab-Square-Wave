@@ -1,0 +1,6 @@
+Name: Nguyen Ngoc Minh
+ID: e1601125
+
+PROPOSITION
+
+Use the Fourier series expansion to make a square wave from a sum of odd harmonics
