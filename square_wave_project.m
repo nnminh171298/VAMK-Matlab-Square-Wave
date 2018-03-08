@@ -9,9 +9,9 @@ function [] = square_wave_project (varargin)
 	[T, num, max, min, start, state] = default_options(varargin)
 	
 	t = linspace(start, start+periods*T, points*periods*T);
-	[f, cos_component, sin_component] = make_square_wave(T, num, max, min, start, state, t);
+	[f, aN, bN] = make_square_wave(T, num, max, min, start, state, t);
 	
-	visualization(f, t, cos_component, sin_component);
+	visualization(f, t, aN, bN, 1/T);
 end
 
 function [T, num, max, min, start, state] = default_options (varargin)
@@ -39,7 +39,7 @@ function [T, num, max, min, start, state] = default_options (varargin)
 	[T, num, max, min, start, state] = optargs{:};
 end
 
-function [f, cos_component, sin_component] = make_square_wave (T, num, max, min, start, state, t)
+function [f, aN, bN] = make_square_wave (T, num, max, min, start, state, t)
 	% f1=max if state=1, f1=min if state=0
 	f1 = mod(state, 2)*max + (1 - mod(state, 2))*min;
 	f2 = mod(state, 2)*min + (1 - mod(state, 2))*max;
@@ -63,14 +63,34 @@ function [f, cos_component, sin_component] = make_square_wave (T, num, max, min,
 	end
 end
 
-function [] = visualization (f, t, cos_component, sin_component)
+function [] = visualization (f, t, aN, bN, freq)
 	figure(1);
     clf;
     hold on;
     grid on;
+	
+	vert=2;
+	horz=2;
+	
+	subplot(vert, horz, [1,2]);
 	plot(t, f, 'b-');
-	for i=1 : size(cos_component, 1)
-		plot(t, cos_component(i,:), 'r-');
-		plot(t, sin_component(i,:), 'm-');
-	end
+	title('Square Wave','FontSize',16,'FontWeight','bold','Color','k');
+	xlabel('time (s)','FontSize',16,'FontWeight','bold','Color','k');
+	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
+	
+	step = freq : freq : freq*size(aN, 2);	% start : step : stop
+	
+	subplot(vert, horz, 3);
+	bar(step, aN, 'r');
+	axis([0 size(aN, 2)]);
+	title('Cos Components','FontSize',16,'FontWeight','bold','Color','k');
+	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
+	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
+	
+	subplot(vert, horz, 4);
+	bar(step, bN, 'r');
+	axis([0 size(bN, 2)]);
+	title('Sin Components','FontSize',16,'FontWeight','bold','Color','k');
+	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
+	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
 end
