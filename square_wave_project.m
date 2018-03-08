@@ -1,23 +1,12 @@
 % USAGE: square_wave_project ([T, [num, [max, [min, [start, [state]]]]]])
 
-clear;
-
-% VARIABLES			DESCRIPTIONS
-T_default = 1		% period
-num_default = 100	% number of addends to compute
-max_default = 5		% high value
-min_default = -5	% low value
-start_default = 0	% starting time	
-state_default = 0	% starting state (1 or 0)
-
-function [] = square_wave_project (varargin)
+function [] = square_wave_project (varargin)	
 	% if there is more coputing power, increase these
 	periods = 3;	% number of periods to display
 	points = 500;	% number of points each second, recommend at least 500
-	default_num = 100;
 	
 	% get the default values for unstated options
-	[T, num, max, min, start, state] = default_options(default_num, varargin);
+	[T, num, max, min, start, state] = default_options(varargin)
 	
 	t = linspace(start, start+periods*T, points*periods*T);
 	[f, cos_component, sin_component] = make_square_wave(T, num, max, min, start, state, t);
@@ -25,7 +14,14 @@ function [] = square_wave_project (varargin)
 	visualization(f, t, cos_component, sin_component);
 end
 
-function [T, num, max, min, start, state] = default_options (default_num, varargin)
+function [T, num, max, min, start, state] = default_options (varargin)
+	T_default = 1;		% period
+	num_default = 100;	% number of addends to compute
+	max_default = 5;	% high value
+	min_default = -5;	% low value
+	start_default = 0;	% starting time	
+	state_default = 0;	% starting state (1 or 0)
+	
 	% only want 6 optional inputs at most
 	numvarargs = length(varargin{1});
 	if numvarargs > 6
