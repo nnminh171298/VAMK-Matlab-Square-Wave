@@ -6,7 +6,7 @@ function [] = square_wave_project (varargin)
 	points = 500;	% number of points each second, recommend at least 500
 	
 	% get the default values for unstated options
-	[T, num, max, min, start, state] = default_options(varargin)
+	[T, num, max, min, start, state] = get_default_options(varargin)
 	
 	t = linspace(start, start+periods*T, points*periods*T);
 	[f, aN, bN] = make_square_wave(T, num, max, min, start, state, t);
@@ -14,7 +14,7 @@ function [] = square_wave_project (varargin)
 	visualization(f, t, aN, bN, 1/T);
 end
 
-function [T, num, max, min, start, state] = default_options (varargin)
+function [T, num, max, min, start, state] = get_default_options (varargin)
 	T_default = 1;		% period
 	num_default = 100;	% number of addends to compute
 	max_default = 5;	% high value
@@ -78,13 +78,13 @@ function [] = visualization (f, t, aN, bN, freq)
 	xlabel('time (s)','FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
 	
-	step = freq : freq : freq*size(aN, 2);	% start : step : stop
+	step = 1 : 1 : size(aN, 2);	% start : step : stop
 	
 	subplot(vert, horz, 3);
 	bar(step, aN, 'r');
 	% this one only works for Octave
 	% axis([0 size(aN, 2)]);
-	xlim([0 size(aN, 2)]);
+	xlim([0 size(aN, 2)+1]);
 	title('Cos Components','FontSize',16,'FontWeight','bold','Color','k');
 	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
@@ -93,7 +93,7 @@ function [] = visualization (f, t, aN, bN, freq)
 	bar(step, bN, 'r');
 	% this one only works for Octave
 	% axis([0 size(bN, 2)]);
-	xlim([0 size(aN, 2)]);
+	xlim([0 size(bN, 2)+1]);
 	title('Sin Components','FontSize',16,'FontWeight','bold','Color','k');
 	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
