@@ -13,10 +13,10 @@ __Options__:
 * __state__: starting state (1 for high, 0 for low)
 
 ## Screenshots
-__Command__: square_wave_project (1, 30, 5, -5, 0, 0)  
+__Command__: square_wave_project(3,50,300,-300,200,1) 
   
-![screenshot_30](images/30.png)
+![screenshot_1](images/square_wave_project(3,50,300,-300,200,1).png)
   
 __Command__: square_wave_project  
   
-![screenshot_30](images/100.png)
+![screenshot_2](images/square_wave_project.png)
