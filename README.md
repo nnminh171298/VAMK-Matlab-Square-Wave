@@ -2,7 +2,7 @@
 Use the Fourier series expansion to make a square wave from a sum of harmonics. Final project in Mathematical Software course at VAMK
 
 ## Usage:
-__Simple__ (Using default values): square_wave_project  
+__Simple__ (equivalent to square_wave_project (1,100,5,-5,0,0): square_wave_project  
 __Full__: square_wave_project ([T, [num, [max, [min, [start, [state]]]]]])  
 __Options__:
 * __T__: time each period (s)
