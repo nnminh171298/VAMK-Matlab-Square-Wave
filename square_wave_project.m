@@ -9,9 +9,9 @@ function [] = square_wave_project (varargin)
 	[T, num, max, min, start, state] = get_default_options(varargin)
 	
 	t = linspace(start, start+periods*T, points*periods*T);
-	[f, aN, bN] = make_square_wave(T, num, max, min, start, state, t);
+	[f, aN, bN, cos_component, sin_component] = make_square_wave(T, num, max, min, start, state, t);
 	
-	visualization(f, t, aN, bN, 1/T);
+	visualization(f, t, aN, bN, 1/T, cos_component, sin_component);
 end
 
 function [T, num, max, min, start, state] = get_default_options (varargin)
@@ -25,8 +25,8 @@ function [T, num, max, min, start, state] = get_default_options (varargin)
 	% only want 6 optional inputs at most
 	numvarargs = length(varargin{1});
 	if numvarargs > 6
-    error('square_wave_project:TooManyInputs', ...
-        'requires at most 6 optional inputs');
+		error('square_wave_project:TooManyInputs', ...
+		'requires at most 6 optional inputs');
 	end
 	
 	% set defaults for optional inputs
@@ -39,11 +39,11 @@ function [T, num, max, min, start, state] = get_default_options (varargin)
 	[T, num, max, min, start, state] = optargs{:};
 end
 
-function [f, aN, bN] = make_square_wave (T, num, max, min, start, state, t)
+function [f, aN, bN, cos_component, sin_component] = make_square_wave (T, num, max, min, start, state, t)
 	% f1=max if state=1, f1=min if state=0
 	f1 = mod(state, 2)*max + (1 - mod(state, 2))*min;
 	f2 = mod(state, 2)*min + (1 - mod(state, 2))*max;
-    w = 2*pi/T;
+	w = 2*pi/T;
 	
 	% initialize f with the first coefficient
 	a0 = (max + min)/2;
@@ -63,17 +63,20 @@ function [f, aN, bN] = make_square_wave (T, num, max, min, start, state, t)
 	end
 end
 
-function [] = visualization (f, t, aN, bN, freq)
+function [] = visualization (f, t, aN, bN, freq, cos_component, sin_component)
 	figure(1);
-    clf;
-    hold on;
-    grid on;
+	clf;
 	
 	vert=2;
 	horz=2;
 	
 	subplot(vert, horz, [1,2]);
+	hold on;
+	grid on;
 	plot(t, f, 'b-');
+	plot(t, cos_component(1, :), 'r-');
+	plot(t, sin_component(1, :), 'm-');
+	legend('f(t)', '1st cos', '1st sin');
 	title('Square Wave','FontSize',16,'FontWeight','bold','Color','k');
 	xlabel('time (s)','FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
@@ -81,6 +84,8 @@ function [] = visualization (f, t, aN, bN, freq)
 	step = 1 : 1 : size(aN, 2);	% start : step : stop
 	
 	subplot(vert, horz, 3);
+	hold on;
+	grid on;
 	bar(step, aN, 'r');
 	% this one only works for Octave
 	% axis([0 size(aN, 2)]);
@@ -90,6 +95,8 @@ function [] = visualization (f, t, aN, bN, freq)
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
 	
 	subplot(vert, horz, 4);
+	hold on;
+	grid on;
 	bar(step, bN, 'r');
 	% this one only works for Octave
 	% axis([0 size(bN, 2)]);
