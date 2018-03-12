@@ -82,14 +82,18 @@ function [] = visualization (f, t, aN, bN, freq)
 	
 	subplot(vert, horz, 3);
 	bar(step, aN, 'r');
-	axis([0 size(aN, 2)]);
+	% this one only works for Octave
+	% axis([0 size(aN, 2)]);
+	xlim([0 size(aN, 2)]);
 	title('Cos Components','FontSize',16,'FontWeight','bold','Color','k');
 	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
 	
 	subplot(vert, horz, 4);
 	bar(step, bN, 'r');
-	axis([0 size(bN, 2)]);
+	% this one only works for Octave
+	% axis([0 size(bN, 2)]);
+	xlim([0 size(aN, 2)]);
 	title('Sin Components','FontSize',16,'FontWeight','bold','Color','k');
 	xlabel(['x', num2str(freq), ' Hz'],'FontSize',16,'FontWeight','bold','Color','k');
 	ylabel('Amplitude','FontSize',16,'FontWeight','bold','Color','k');
