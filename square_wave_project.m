@@ -53,8 +53,8 @@ function [f, aN, bN, cos_component, sin_component] = make_square_wave (T, num, m
 	
 	% calculate the coefficient for the addends
 	for(i=1 : num)
-		aN(i) = 2*(f1-f2)*(sin(i*w*(start+T/2))-sin(i*w*start))/(w*i*T);
-		bN(i) = -2*(f1-f2)*(cos(i*w*(start+T/2))-cos(i*w*start))/(w*i*T);
+		aN(i) = (f1-f2)*(sin(i*w*(start+T/2))-sin(i*w*start))/(i*pi);
+		bN(i) = -(f1-f2)*(cos(i*w*(start+T/2))-cos(i*w*start))/(i*pi);
 		for j=1 : length(t)
 			cos_component(i, j) = aN(i)*cos(i*w*t(j));
 			sin_component(i, j) = bN(i)*sin(i*w*t(j));
